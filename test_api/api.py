@@ -17,7 +17,7 @@ class Users(Resource):
     
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('userId', required=True, type=int)
+        parser.add_argument('userId', required=True)
         parser.add_argument('name', required=True, type=str)
         parser.add_argument('city', required=True, type=str)
         args = parser.parse_args()
@@ -32,6 +32,7 @@ class Users(Resource):
                     'userId' :args['userId'],
                     'name' :args['name'],
                     'city' :args['city'],
+                    'locations': []
                 }, ignore_index=True
             )
             data.to_csv(users_path, index=False)
@@ -66,6 +67,28 @@ class Users(Resource):
             return {
             'message': f"'{args['userId']}' user not found."
             }, 404
+    def delete(self):
+        parser = reqparse.RequestParser()  # initialize
+        parser.add_argument('userId', required=True)  # add userId arg
+        args = parser.parse_args()  # parse arguments to dictionary
+        
+        # read our CSV
+        data = pd.read_csv('users.csv')
+        
+        if args['userId'] in list(data['userId']):
+            # remove data entry matching given userId
+            data = data[data['userId'] != args['userId']]
+            
+            # save back to CSV
+            data.to_csv('users.csv', index=False)
+            # return data and 200 OK
+            return {'data': data.to_dict()}, 200
+        else:
+            # otherwise we return 404 because userId does not exist
+            return {
+                'message': f"'{args['userId']}' user not found."
+            }, 404
+
         
 class Locations(Resource):
     def get(self):
