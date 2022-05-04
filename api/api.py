@@ -2,6 +2,7 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
 import ast
+import bcrypt
 
 users_path = "./users.csv"
 
@@ -15,6 +16,10 @@ class Users(Resource):
         data = data.to_dict()
         return {'data': data},200
     
+    def post(self):
+        #password = ''
+        #salt = bcrypt.gensalt()
+        #hashed = bcrypt.hashpw(password.encode('utf8'), salt)
 
 api.add_resource(Users, "/users")
 
