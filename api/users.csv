@@ -1,2 +1,2 @@
-first	last	email	birth	password
-Ethan	Wright	test@test	01/01/0001	test1234
+first	last	email	birth	password	userId
+Ethan	Wright	test@test	01/01/0001	test	1

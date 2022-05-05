@@ -18,12 +18,12 @@ class Users(Resource):
     
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('userId', required=True)
         parser.add_argument('first', required=True)
         parser.add_argument('last', required=True)
         parser.add_argument('email', required=True)
         parser.add_argument('birth', required=True)
-        parser.add_argument(self.encode('password'), required=True)
+        parser.add_argument('password', required=True)
+        parser.add_argument('userId', required=True)
         args = parser.parse_args()
         data = pd.read_csv(users_path)
         if args['userId'] in data['userId']:
